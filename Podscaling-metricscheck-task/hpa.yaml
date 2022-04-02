@@ -1,0 +1,13 @@
+--- 
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v1
+metadata:
+  name: springsql-hpa
+spec: 
+  targetCPUUtilizationPercentage: 50
+  minReplicas: 1
+  maxReplicas: 10
+  scaleTargetRef:
+    name: mysql
+    kind: Deployment
+    apiVersion: apps/v1

@@ -1,0 +1,14 @@
+# User will be created and try to execute without the cluster roles for accessing pods and then roles with list,get,create,delete and update privs will be granted
+
+#Using the X509 certificate to  user ansadmin.(already created the user with passwd)
+1) openssl genrsa -out ansadmin.key 2048
+2) openssl req -new -key ansadmin.key -out ansadmin.csr -subj "/CN=ansadmin"
+3) openssl x509 -req -in ansadmin.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out ansadmin.crt -days 300 (Cluster certificate and certificate key to sign this request)
+4) kubectl config set-credentials ansadmin  --client-certificate=ansadmin.crt --client-key=ansadmin.key( add user credentials to our Kubeconfig file)
+5)kubectl config set-context ansadmin-context --cluster=kubernetes --user=ansadmin(~/.kube/config file you should see the new user data added to the file.)
+6)kubectl --user=ansadmin get pods
+7)kubectl apply -f podadmin-roles.yaml
+8)kubectl --user=ansadmin get pods
+9)kubectl --user=ansadmin apply -f pod.yaml
+10)kubectl --user=ansadmin delete pod/mypod
+

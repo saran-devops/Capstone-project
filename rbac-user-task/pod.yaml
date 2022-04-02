@@ -1,0 +1,17 @@
+kind: Pod         # kubectl api-resources
+apiVersion: v1 
+metadata:
+  name: mypod 
+  namespace: default
+  labels:    ## are mandatory 
+    env: dev   ## here both key & value are your choice 
+spec:
+  containers:
+    - name: tcont 
+      image: tomcat 
+      ports: 
+        - name: http 
+          containerPort: 8080  ## this is the process port inside the cont 
+        - name: https
+          containerPort: 8443
+
